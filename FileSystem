@@ -1,5 +1,5 @@
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FileSystem {
@@ -39,7 +39,7 @@ public class FileSystem {
         journal.log("CREATE_DIR", path + "/" + name);
         Directory dir = findDirectory(path);
         if (dir != null) {
-            dir.addDirectory(new Directory(name));
+            dir.addSubDirectory(new Directory(name));
         }
     }
 
@@ -47,7 +47,7 @@ public class FileSystem {
         journal.log("DELETE_DIR", path + "/" + name);
         Directory dir = findDirectory(path);
         if (dir != null) {
-            dir.removeDirectory(name);
+            dir.removeSubDirectory(name);
         }
     }
 
@@ -55,7 +55,7 @@ public class FileSystem {
         journal.log("RENAME_DIR", path + "/" + oldName + " TO " + newName);
         Directory dir = findDirectory(path);
         if (dir != null) {
-            dir.renameDirectory(oldName, newName);
+            dir.renameSubDirectory(oldName, newName);
         }
     }
 
@@ -64,7 +64,7 @@ public class FileSystem {
         if (dir != null) {
             return dir.listFiles();
         }
-        return new ArrayList<>();
+        return new LinkedList<>();
     }
 
     private Directory findDirectory(String path) {
@@ -72,7 +72,7 @@ public class FileSystem {
         Directory current = root;
         for (String part : parts) {
             if (part.isEmpty()) continue;
-            current = current.getDirectory(part);
+            current = current.getSubDirectory(part);
             if (current == null) {
                 return null;
             }
