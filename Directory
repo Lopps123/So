@@ -1,66 +1,65 @@
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Directory {
-    private String name;
-    private Map<String, File> files;
-    private Map<String, Directory> directories;
+    private String directoryName;
+    private Map<String, File> filesMap;
+    private Map<String, Directory> subDirectoriesMap;
 
     public Directory(String name) {
-        this.name = name;
-        this.files = new HashMap<>();
-        this.directories = new HashMap<>();
+        this.directoryName = name;
+        this.filesMap = new HashMap<>();
+        this.subDirectoriesMap = new HashMap<>();
     }
 
-    public String getName() {
-        return name;
+    public String getDirectoryName() {
+        return directoryName;
     }
 
-    public Directory getDirectory(String name) {
-        return directories.get(name);
+    public Directory getSubDirectory(String name) {
+        return subDirectoriesMap.get(name);
     }
 
     public void addFile(File file) {
-        files.put(file.getName(), file);
+        filesMap.put(file.getName(), file);
     }
 
     public void removeFile(String name) {
-        files.remove(name);
+        filesMap.remove(name);
     }
 
     public void renameFile(String oldName, String newName) {
-        File file = files.remove(oldName);
+        File file = filesMap.remove(oldName);
         if (file != null) {
             file.setName(newName);
-            files.put(newName, file);
+            filesMap.put(newName, file);
         }
     }
 
-    public void addDirectory(Directory directory) {
-        directories.put(directory.getName(), directory);
+    public void addSubDirectory(Directory directory) {
+        subDirectoriesMap.put(directory.getDirectoryName(), directory);
     }
 
-    public void removeDirectory(String name) {
-        directories.remove(name);
+    public void removeSubDirectory(String name) {
+        subDirectoriesMap.remove(name);
     }
 
-    public void renameDirectory(String oldName, String newName) {
-        Directory dir = directories.remove(oldName);
+    public void renameSubDirectory(String oldName, String newName) {
+        Directory dir = subDirectoriesMap.remove(oldName);
         if (dir != null) {
-            dir.name = newName;
-            directories.put(newName, dir);
+            dir.directoryName = newName;
+            subDirectoriesMap.put(newName, dir);
         }
     }
 
     public List<String> listFiles() {
-        List<String> list = new ArrayList<>(files.keySet());
-        for (String dirName : directories.keySet()) {
-            list.add(dirName + "/");
+        List<String> fileList = new ArrayList<>(filesMap.keySet());
+        for (String dirName : subDirectoriesMap.keySet()) {
+            fileList.add(dirName + "/");
         }
-        return list;
+        return fileList;
     }
 }
