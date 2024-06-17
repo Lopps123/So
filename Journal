@@ -1,4 +1,5 @@
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,6 @@ public class Journal {
     }
 
     public List<String> getLog() {
-        return log;
+        return new ArrayList<>(log);
     }
 }
