@@ -1,25 +1,29 @@
 
-
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         FileSystem fs = new FileSystem();
 
-        fs.createDirectory("/", "dir1");
-        fs.createFile("/dir1", "file1.txt");
-        fs.renameFile("/dir1", "file1.txt", "file2.txt");
-        fs.createDirectory("/", "dir2");
-        fs.renameDirectory("/", "dir2", "dir3");
-        fs.deleteFile("/dir1", "file2.txt");
-        fs.deleteDirectory("/", "dir3");
+        fs.createDirectory("/", "documents");
+        fs.createFile("/documents", "report.docx");
+        fs.renameFile("/documents", "report.docx", "monthly_report.docx");
+        fs.createDirectory("/", "images");
+        fs.renameDirectory("/", "images", "photos");
+        fs.deleteFile("/documents", "monthly_report.docx");
+        fs.deleteDirectory("/", "photos");
 
         List<String> files = fs.listFiles("/");
-        for (String file : files) {
-            System.out.println(file);
+        if (files.isEmpty()) {
+            System.out.println("No files found.");
+        } else {
+            System.out.println("Files in the root directory:");
+            for (String file : files) {
+                System.out.println(file);
+            }
         }
 
-        System.out.println("Journal:");
+        System.out.println("\nJournal:");
         for (String entry : fs.getJournal()) {
             System.out.println(entry);
         }
